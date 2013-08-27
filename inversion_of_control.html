@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Demo: Module Factory</title>
+	<style type="text/css">
+		.selected-grocery {
+			background-color: #ffc;
+		}
+
+		.selected-task {
+			background-color: #fcc;	
+		}
+	</style>
+</head>
+<body>
+	<div data-modules="groceryList" data-module-options='{
+		"actionPrefix": "groceries"
+	}'>
+		<h1>Groceries</h1>
+		<form method="get" action="#" data-action="groceries.add">
+			To buy: <input type="text" name="text"> <button type="submit">Add</button>
+		</form>
+		<p>0 Selected</p>
+		<ol>
+			<li data-action="groceries.selection.toggleSelection">Oranges <button data-action="groceries.remove">X</button></li>
+			<script type="text/html" class="template">
+				<li data-action="groceries.selection.toggleSelection">#{text} <button data-action="groceries.remove">X</button></li>
+			</script>
+		</ol>
+	</div>
+
+	<div data-modules="taskList" data-module-options='{
+		"actionPrefix": "honeydo"
+	}'>
+		<h1>Things to do</h1>
+		<form method="get" action="#" data-action="honeydo.add">
+			To do: <input type="text" name="text"> <button type="submit">Add</button>
+		</form>
+		<p>0 Selected</p>
+		<ol>
+			<li data-action="honeydo.selection.toggleSelection">Fix kitchen sink <button data-action="honeydo.remove">X</button></li>
+			<script type="text/html" class="template">
+				<li data-action="honeydo.selection.toggleSelection">#{text} <button data-action="honeydo.remove">X</button></li>
+			</script>
+		</ol>
+	</div>
+
+	<script type="text/javascript" src="./js/function.js"></script>
+	<script type="text/javascript" src="./js/hypodermic/lib/hypodermic.js"></script>
+	<script type="text/javascript" src="./js/callbacks.js"></script>
+	<script type="text/javascript" src="./js/callbacks/utils.js"></script>
+	<script type="text/javascript" src="./js/dom/events/delegator.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/event.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/dispatcher.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/application_events.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/notifications.js"></script>
+	<script type="text/javascript" src="./js/hash.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module/manager.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module/factory.js"></script>
+	<script type="text/javascript" src="./js/app/ioc/application.js"></script>
+	<script type="text/javascript" src="./js/app/ioc/selection_module.js"></script>
+	<script type="text/javascript" src="./js/app/ioc/list_module.js"></script>
+	<script type="text/javascript" src="./js/app/ioc/config.js"></script>
+	<script type="text/javascript">
+
+		var objectFactory = new Hypodermic(dependencies);
+		var app = objectFactory.getInstance("application");
+
+		app.init();
+
+	</script>
+</body>
+</html>
