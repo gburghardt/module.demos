@@ -169,10 +169,11 @@ var Module = Object.extend({
 
 		setOptions: function setOptions(overrides) {
 			if (!this.hasOwnProperty("options")) {
-				this.options = new Hash();
+				this.options = overrides;
 			}
-
-			this.options.merge(overrides);
+			else {
+				this.options.merge(overrides);
+			}
 		}
 
 	}

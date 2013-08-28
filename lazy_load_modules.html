@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Demo: Lazy Load Modules</title>
+	<style type="text/css">
+		.module {
+			background-color: #e0e0e0;
+			border: 1px solid #000;
+			height: 180px;
+			padding: 10px;
+			position: absolute;
+			width: 180px;
+		}
+		.module.loaded {
+			background-color: #ffc;
+		}
+		.selected {
+			background-color: #ffc;
+		}
+	</style>
+</head>
+<body>
+	<div style="margin: 1em auto; width: 30em;">
+		<h1>Lazy Loading Modules</h1>
+		<p>
+			Modules can be lazy loaded using the following methods:
+		</p>
+		<ul>
+			<li>On mouse-over</li>
+			<li>On scroll-to</li>
+			<li>Any of the above</li>
+		</ul>
+		<p>
+			Note: To make your site compatibly with mobile devices, avoid using mouseover events.
+			Use "any" instead.
+		</p>
+	</div>
+	<div data-modules="ExampleLazyModule" data-module-lazyload="any" style="top: 0; left: 0;" class="module">
+		<p>To load anytime</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="mouseover" style="top: 202px; left: 0;">
+		<p>Load on mouseover</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 100px; left: 950px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 100px; left: 2000px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 1000px; left: 1490px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 1000px; left: 2000px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 1500px; left: 2000px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 2000px; left: 2000px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="scrollto" style="top: 2500px; left: 2000px;">
+		<p>Load on scrollto</p>
+	</div>
+	<div class="module" data-modules="ExampleLazyModule" data-module-lazyload="mouseover" style="top: 1000px; left: 0;">
+		<p>Load on mouseover</p>
+	</div>
+	<script type="text/javascript" src="./js/function.js"></script>
+	<script type="text/javascript" src="./js/callbacks.js"></script>
+	<script type="text/javascript" src="./js/callbacks/utils.js"></script>
+	<script type="text/javascript" src="./js/dom/events/delegator.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/event.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/dispatcher.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/application_events.js"></script>
+	<script type="text/javascript" src="./js/events/lib/events/notifications.js"></script>
+	<script type="text/javascript" src="./js/hash.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module/factory.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module/manager.js"></script>
+	<script type="text/javascript" src="./js/module/lib/module/manager/lazy_loader.js"></script>
+	<script type="text/javascript" src="./js/app/example_lazy_module.js"></script>
+	<script type="text/javascript">
+		try {
+			var manager = new Module.Manager()
+				.init(document.documentElement)
+				.lazyLoadModules();
+		}
+		catch (error) {
+			console.error(error);
+		}
+	</script>
+</body>
+</html>

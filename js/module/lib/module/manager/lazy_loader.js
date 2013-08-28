@@ -9,12 +9,12 @@ Module.Manager.LazyLoader = {
 
 			var _options = new Hash({
 				scrollElement: null,
-				scrollTimeout: 500
+				scrollTimeout: 250
 			});
 
 			var _manager = this;
 			var _scrollTimer = null;
-			var _scrollElement = options.scrollElement || null;
+			var _scrollElement = _options.scrollElement || null;
 			var _element = this.element;
 			var _document = this.element.ownerDocument;
 
@@ -27,7 +27,7 @@ Module.Manager.LazyLoader = {
 					_options.merge(overrides);
 				}
 
-				initEvents();
+				addEvents();
 
 				initModulesInsideViewport();
 			}
@@ -65,10 +65,10 @@ Module.Manager.LazyLoader = {
 			}
 
 			function initModulesInsideViewport() {
-				var elements = _element.getElementsByTagName("*"), i = 0, length = elements.length, element;
-				var viewport = Viewport.create(_scrollElement);
+				var elements = _element.getElementsByTagName("*"), i, element;
+				var viewport = Viewport.create(getScrollElement());
 
-				for (i; i < length; i++) {
+				for (i = 0; i < elements.length; i++) {
 					element = elements[i];
 
 					if (element.getAttribute("data-module-lazyload") && viewport.isVisible(element)) {
@@ -79,15 +79,7 @@ Module.Manager.LazyLoader = {
 
 			function getScrollElement() {
 				if (_scrollElement === null) {
-					if (_document.getElementsByTagName("html")[0].scrollTop !== 0) {
-						_scrollElement = _document.getElementsByTagName("html")[0];
-					}
-					else if (_document.getElementsByTagName("body")[0].scrollTop !== 0) {
-						_scrollElement = _document.getElementsByTagName("body")[0];
-					}
-					else {
-						throw new Error("Could not find the scroll element.");
-					}
+					_scrollElement = _document.getElementsByTagName("html")[0];
 				}
 
 				return _scrollElement;
@@ -108,8 +100,9 @@ Module.Manager.LazyLoader = {
 
 				if (_scrollTimer) {
 					clearTimeout(_scrollTimer);
-					_scrollTimer = setTimeout(handleScrollStopped, _options.lazyLoaderScrollTimeout);
 				}
+
+				_scrollTimer = setTimeout(handleScrollStopped, _options.scrollTimeout);
 			}
 
 			function handleScrollStopped() {
@@ -121,7 +114,7 @@ Module.Manager.LazyLoader = {
 			function lazyLoadModules(element, value) {
 				var attr = element.getAttribute("data-module-lazyload");
 
-				if (attr === "*" || new RegExp(value).test(attr)) {
+				if (attr === "any" || new RegExp(value).test(attr)) {
 					element.removeAttribute("data-module-lazyload");
 					_manager.createModules(element);
 					element.setAttribute("data-module-lazyloaded", attr);
@@ -151,11 +144,11 @@ Module.Manager.LazyLoader = {
 				top: 0,
 				width: 0,
 
-				constructor: Viewport
+				constructor: Viewport,
 
 				isBottomInBounds: function isBottomInBounds(position) {
 					return (position.top + position.height <= this.top + this.height && position.top + position.height > this.top) ? true : false;
-				}
+				},
 
 				isLeftInBounds: function isLeftInBounds(position) {
 					return (position.left >= this.left && position.left < this.left + this.width) ? true : false;
@@ -167,7 +160,7 @@ Module.Manager.LazyLoader = {
 
 				isTopInBounds: function isTopInBounds(position) {
 					return (position.top >= this.top && position.top < this.top + this.height) ? true : false;
-				}
+				},
 
 				isVisible: function isVisible(element) {
 					var visible = false;
@@ -181,7 +174,7 @@ Module.Manager.LazyLoader = {
 				},
 
 				_getPosition: function _getPosition(element) {
-					var parent;
+					var parent = element.offsetParent;
 					var position = {
 						top: element.offsetTop,
 						left: element.offsetLeft,
@@ -189,7 +182,7 @@ Module.Manager.LazyLoader = {
 						height: element.offsetHeight
 					};
 
-					while(parent = element.offsetParent) {
+					while(parent = parent.offsetParent) {
 						position.top += parent.offsetTop;
 						position.left += parent.offsetLeft;
 					}
