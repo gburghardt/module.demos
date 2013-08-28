@@ -9,7 +9,9 @@ Application.prototype = {
 	moduleManager: null,
 
 	init: function init() {
-		this.moduleManager.init(document.getElementsByTagName("html")[0]);
+		this.moduleManager
+			.init(document.getElementsByTagName("html")[0])
+			.eagerLoadModules();
 	}
 
 };

@@ -84,14 +84,14 @@ var Module = Object.extend({
 			return this;
 		},
 
-		destructor: function destructor() {
+		destructor: function destructor(keepElement) {
 			this.constructor.unregister(this);
 
 			if (this.delegator) {
 				this.delegator.destructor();
 			}
 
-			if (this.element) {
+			if (!keepElement && this.element) {
 				this.element.parentNode.removeChild(this.element);
 			}
 
@@ -167,13 +167,12 @@ var Module = Object.extend({
 			}
 		},
 
-		setOptions: function(options) {
+		setOptions: function setOptions(overrides) {
 			if (!this.hasOwnProperty("options")) {
-				this.options = options;
+				this.options = new Hash();
 			}
-			else {
-				this.options.merge(options);
-			}
+
+			this.options.merge(overrides);
 		}
 
 	}

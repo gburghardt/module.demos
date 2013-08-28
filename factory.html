@@ -54,7 +54,8 @@
 
 			init: function() {
 				this.moduleManager = new Module.Manager()
-					.init(document.getElementsByTagName("html")[0]);
+					.init(document.getElementsByTagName("html")[0])
+					.eagerLoadModules();
 			}
 		};
 
