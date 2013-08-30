@@ -19,7 +19,7 @@
 			for (key in mixin.prototype) {
 				if (mixin.prototype.hasOwnProperty(key) && !this.prototype[key]) {
 					this.prototype[key] = mixin.prototype[key];
-					Object.defineProperty(this.prototype, key, {enumerable: false});
+					//Object.defineProperty(this.prototype, key, {enumerable: false});
 				}
 			}
 		}

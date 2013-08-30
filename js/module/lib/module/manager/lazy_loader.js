@@ -59,8 +59,8 @@ Module.Manager.LazyLoader = {
 					_document.addEventListener("scroll", handleScrollEvent, true);
 				}
 				else {
-					_element.attachHandler("onmouseover", handleMouseOverEvent);
-					_document.attachHandler("onscroll", handleScrollEvent);
+					_element.attachEvent("onmouseover", handleMouseOverEvent);
+					_element.onscroll = handleScrollEvent;
 				}
 			}
 
@@ -101,12 +101,16 @@ Module.Manager.LazyLoader = {
 				if (_scrollTimer) {
 					clearTimeout(_scrollTimer);
 				}
+				else {
+					console.log("Scroll started");
+				}
 
 				_scrollTimer = setTimeout(handleScrollStopped, _options.scrollTimeout);
 			}
 
 			function handleScrollStopped() {
 				// TODO: Grab elements in viewport
+				console.log("Scroll stopped");
 				_scrollTimer = null;
 				initModulesInsideViewport();
 			}
@@ -120,7 +124,7 @@ Module.Manager.LazyLoader = {
 					element.setAttribute("data-module-lazyloaded", attr);
 				}
 
-				event = element = null;
+				element = null;
 			}
 
 			function removeEvents() {
@@ -129,8 +133,8 @@ Module.Manager.LazyLoader = {
 					_document.removeEventListener("scroll", handleScrollEvent, true);
 				}
 				else {
-					_element.detachHandler("onmouseover", handleMouseOverEvent);
-					_document.detachHandler("onscroll", handleScrollEvent);
+					_element.detachEvent("onmouseover", handleMouseOverEvent);
+					_document.detachEvent("onscroll", handleScrollEvent);
 				}
 			}
 
